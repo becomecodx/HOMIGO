@@ -1,0 +1,36 @@
+# HOMIGO — Quick commands (macOS, zsh)
+
+# 1) Create & activate virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# 2) Upgrade pip and install project requirements
+pip install -U pip
+pip install -r requirements.txt
+
+# 3) Ensure `.env` exists at project root and is configured (DATABASE_URL, JWT keys, etc.)
+#    (The app reads `.env` automatically via pydantic-settings)
+
+# 4) Run the FastAPI server (development)
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+# 5) Alembic: create an autogenerate revision for the current models
+#    Make sure your venv is activated so `alembic` is the one installed in .venv
+alembic revision --autogenerate -m "Add users table"
+
+# 6) Apply migrations to the database
+alembic upgrade head
+
+# 7) Commit migration files to git
+#    (This assumes the new migration(s) are placed under alembic/versions)
+git add alembic/versions -A
+git commit -m "db: add users table migration"
+git push
+
+# Notes / troubleshooting
+# - If Alembic cannot connect to the DB, ensure DATABASE_URL in .env is correct and reachable.
+# - For some managed DBs you may need sslmode=require in DATABASE_URL, for example:
+#   export DATABASE_URL="postgresql+asyncpg://user:pass@host:5432/dbname?sslmode=require"
+# - Run all commands from the project root: /Users/jay/Hub9/HOMIGO
+# - To run a single alembic command without activating the venv use:
+#   .venv/bin/alembic <command>

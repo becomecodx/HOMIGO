@@ -3,7 +3,8 @@ Authentication routes.
 Defines API endpoints for authentication operations.
 """
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
 from app.schemas.auth import (
     SignupRequest,
     LoginRequest,
@@ -15,6 +16,7 @@ from app.schemas.response import SuccessResponse, ErrorResponse, HealthResponse
 from app.services.auth_service import auth_service
 from app.services.captcha_service import create_captcha, get_active_captcha_count
 from app.utils.validators import validate_password_strength, validate_name, validate_phone_number
+from app.database.postgres import get_db
 from typing import List
 import logging
 

@@ -11,7 +11,7 @@ from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 import logging
 from app.config.settings import settings
-from app.database.mongodb import connect_to_mongo, close_mongo_connection
+from app.database.postgres import init_db, close_db
 from app.routes.auth import router as auth_router
 import sys
 
@@ -37,8 +37,8 @@ async def lifespan(app: FastAPI):
     logger.info(f"Starting {settings.app_name} v{settings.app_version}...")
     
     try:
-        # Connect to MongoDB
-        await connect_to_mongo()
+        # Connect to PostgreSQL
+        await init_db()
         logger.info("Database connection established")
     except Exception as e:
         logger.error(f"Failed to connect to database: {e}")
@@ -50,8 +50,8 @@ async def lifespan(app: FastAPI):
     logger.info("Shutting down application...")
     
     try:
-        # Close MongoDB connection
-        await close_mongo_connection()
+        # Close PostgreSQL connection
+        await close_db()
         logger.info("Database connection closed")
     except Exception as e:
         logger.error(f"Error closing database connection: {e}")

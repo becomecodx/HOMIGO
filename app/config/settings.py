@@ -11,17 +11,20 @@ from functools import lru_cache
 
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
+    # Allow extra environment variables (e.g., POSTGRES_HOST/PORT) without failing validation
+    model_config = {
+        "extra": "ignore",
+        # load .env automatically when creating Settings
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "case_sensitive": False,
+    }
     
-    # MongoDB Configuration
-    mongodb_url: str = Field(
-        default="mongodb://localhost:27017",
-        alias="MONGODB_URL",
-        description="MongoDB connection URL"
-    )
-    mongodb_db_name: str = Field(
-        default="homigo_db",
-        alias="MONGODB_DB_NAME",
-        description="MongoDB database name"
+    # PostgreSQL Configuration
+    database_url: str = Field(
+        default="postgresql+asyncpg://postgres:password@localhost:5432/homigo_db",
+        alias="DATABASE_URL",
+        description="PostgreSQL connection URL"
     )
     
     # JWT Configuration
@@ -75,10 +78,7 @@ class Settings(BaseSettings):
         """Return allowed origins as a list."""
         return [origin.strip() for origin in self.allowed_origins.split(",")]
     
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-        case_sensitive = False
+    # Note: env loading and other settings are configured in `model_config` for pydantic v2
 
 
 @lru_cache()

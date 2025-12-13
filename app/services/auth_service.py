@@ -5,9 +5,9 @@ Handles user authentication business logic.
 
 from typing import Optional, Dict, Any
 from datetime import datetime
-from bson import ObjectId
-from pymongo.errors import DuplicateKeyError
-from app.database.mongodb import get_users_collection
+from sqlalchemy import select, or_
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.exc import IntegrityError
 from app.models.user import User, UserCreate
 from app.utils.security import hash_password, verify_password
 from app.utils.validators import (
@@ -27,11 +27,12 @@ class AuthService:
     """Service for authentication operations."""
     
     @staticmethod
-    async def create_user(user_data: UserCreate) -> Dict[str, Any]:
+    async def create_user(db: AsyncSession, user_data: UserCreate) -> Dict[str, Any]:
         """
         Create a new user account.
         
         Args:
+            db: Database session
             user_data: User creation data
             
         Returns:
@@ -39,10 +40,7 @@ class AuthService:
             
         Raises:
             ValueError: If validation fails
-            DuplicateKeyError: If email or phone already exists
         """
-        users_collection = get_users_collection()
-        
         # Validate inputs
         first_name_valid, first_name_error = validate_name(user_data.first_name)
         if not first_name_valid:
@@ -61,15 +59,21 @@ class AuthService:
             raise ValueError(f"Password: {password_error}")
         
         # Check if user already exists
-        existing_user = await users_collection.find_one({
-            "$or": [
-                {"email": user_data.email.lower()},
-                {"phone_number": sanitize_phone_number(user_data.phone_number)}
-            ]
-        })
+        email_lower = user_data.email.lower().strip()
+        phone_sanitized = sanitize_phone_number(user_data.phone_number)
+        
+        result = await db.execute(
+            select(User).where(
+                or_(
+                    User.email == email_lower,
+                    User.phone_number == phone_sanitized
+                )
+            )
+        )
+        existing_user = result.scalar_one_or_none()
         
         if existing_user:
-            if existing_user.get("email") == user_data.email.lower():
+            if existing_user.email == email_lower:
                 raise ValueError("Email already registered")
             else:
                 raise ValueError("Phone number already registered")
@@ -77,90 +81,90 @@ class AuthService:
         # Hash password
         password_hash = hash_password(user_data.password)
         
-        # Create user document
-        user_doc = {
-            "first_name": user_data.first_name.strip(),
-            "last_name": user_data.last_name.strip(),
-            "email": user_data.email.lower().strip(),
-            "phone_number": sanitize_phone_number(user_data.phone_number),
-            "password_hash": password_hash,
-            "is_active": True,
-            "is_verified": False,
-            "created_at": datetime.utcnow(),
-            "updated_at": None
-        }
+        # Create user
+        new_user = User(
+            first_name=user_data.first_name.strip(),
+            last_name=user_data.last_name.strip(),
+            email=email_lower,
+            phone_number=phone_sanitized,
+            password_hash=password_hash,
+            is_active=True,
+            is_verified=False,
+            created_at=datetime.utcnow()
+        )
         
         try:
-            # Insert user into database
-            result = await users_collection.insert_one(user_doc)
+            db.add(new_user)
+            await db.commit()
+            await db.refresh(new_user)
             
-            # Retrieve created user (without password hash)
-            created_user = await users_collection.find_one({"_id": result.inserted_id})
-            
-            # Convert ObjectId to string for JSON serialization
             user_dict = {
-                "_id": str(created_user["_id"]),
-                "first_name": created_user["first_name"],
-                "last_name": created_user["last_name"],
-                "email": created_user["email"],
-                "phone_number": created_user["phone_number"],
-                "is_active": created_user["is_active"],
-                "is_verified": created_user["is_verified"],
-                "created_at": created_user["created_at"]
+                "id": new_user.id,
+                "first_name": new_user.first_name,
+                "last_name": new_user.last_name,
+                "email": new_user.email,
+                "phone_number": new_user.phone_number,
+                "is_active": new_user.is_active,
+                "is_verified": new_user.is_verified,
+                "created_at": new_user.created_at
             }
             
             logger.info(f"User created: {user_dict['email']}")
             
             return user_dict
         
-        except DuplicateKeyError as e:
-            logger.warning(f"Duplicate key error creating user: {e}")
+        except IntegrityError as e:
+            await db.rollback()
+            logger.warning(f"Integrity error creating user: {e}")
             raise ValueError("Email or phone number already registered")
         except Exception as e:
+            await db.rollback()
             logger.error(f"Failed to create user: {e}")
             raise ValueError("Failed to create user account")
     
     @staticmethod
-    async def authenticate_user(email: str, password: str) -> Optional[Dict[str, Any]]:
+    async def authenticate_user(db: AsyncSession, email: str, password: str) -> Optional[Dict[str, Any]]:
         """
         Authenticate a user with email and password.
         
         Args:
+            db: Database session
             email: User's email address
             password: User's password
             
         Returns:
             Optional[Dict]: User data if authentication successful, None otherwise
         """
-        users_collection = get_users_collection()
-        
         # Find user by email
-        user = await users_collection.find_one({"email": email.lower().strip()})
+        result = await db.execute(
+            select(User).where(User.email == email.lower().strip())
+        )
+        user = result.scalar_one_or_none()
         
         if not user:
             logger.warning(f"Login attempt with non-existent email: {email}")
             return None
         
         # Check if user is active
-        if not user.get("is_active", True):
+        if not user.is_active:
             logger.warning(f"Login attempt with inactive account: {email}")
             return None
         
         # Verify password
-        if not verify_password(password, user["password_hash"]):
+        if not verify_password(password, user.password_hash):
             logger.warning(f"Invalid password for email: {email}")
             return None
         
         # Return user data (without password hash)
         user_dict = {
-            "_id": str(user["_id"]),
-            "first_name": user["first_name"],
-            "last_name": user["last_name"],
-            "email": user["email"],
-            "phone_number": user["phone_number"],
-            "is_active": user["is_active"],
-            "is_verified": user.get("is_verified", False),
-            "created_at": user["created_at"]
+            "id": user.id,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "email": user.email,
+            "phone_number": user.phone_number,
+            "is_active": user.is_active,
+            "is_verified": user.is_verified,
+            "created_at": user.created_at
         }
         
         logger.info(f"User authenticated: {email}")
@@ -194,7 +198,7 @@ class AuthService:
         """
         # Prepare token claims
         token_data = {
-            "sub": user_data["_id"],  # Subject (user ID)
+            "sub": str(user_data["id"]),  # Subject (user ID)
             "email": user_data["email"],
             "first_name": user_data["first_name"],
             "last_name": user_data["last_name"]
@@ -211,33 +215,35 @@ class AuthService:
         }
     
     @staticmethod
-    async def get_user_by_id(user_id: str) -> Optional[Dict[str, Any]]:
+    async def get_user_by_id(db: AsyncSession, user_id: int) -> Optional[Dict[str, Any]]:
         """
         Get user by ID.
         
         Args:
+            db: Database session
             user_id: User ID
             
         Returns:
             Optional[Dict]: User data if found, None otherwise
         """
-        users_collection = get_users_collection()
-        
         try:
-            user = await users_collection.find_one({"_id": ObjectId(user_id)})
+            result = await db.execute(
+                select(User).where(User.id == user_id)
+            )
+            user = result.scalar_one_or_none()
             
             if not user:
                 return None
             
             return {
-                "_id": str(user["_id"]),
-                "first_name": user["first_name"],
-                "last_name": user["last_name"],
-                "email": user["email"],
-                "phone_number": user["phone_number"],
-                "is_active": user["is_active"],
-                "is_verified": user.get("is_verified", False),
-                "created_at": user["created_at"]
+                "id": user.id,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "email": user.email,
+                "phone_number": user.phone_number,
+                "is_active": user.is_active,
+                "is_verified": user.is_verified,
+                "created_at": user.created_at
             }
         
         except Exception as e:
