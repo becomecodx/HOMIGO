@@ -36,6 +36,9 @@ class User(Base):
     
     device_token: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     fcm_token: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    
+    # Firebase Authentication
+    firebase_id: Mapped[Optional[str]] = mapped_column(String(128), unique=True, nullable=True, index=True)
 
     # Relationships
     verification: Mapped["UserVerification"] = relationship("UserVerification", back_populates="user", uselist=False, cascade="all, delete-orphan")

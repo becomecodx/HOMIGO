@@ -8,7 +8,8 @@ from datetime import datetime
 from sqlalchemy import select, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
-from app.models.user import User, UserCreate
+from app.models.user import User
+from app.schemas.auth import SignupRequest
 from app.utils.security import hash_password, verify_password
 from app.utils.validators import (
     validate_name,
@@ -27,7 +28,7 @@ class AuthService:
     """Service for authentication operations."""
     
     @staticmethod
-    async def create_user(db: AsyncSession, user_data: UserCreate) -> Dict[str, Any]:
+    async def create_user(db: AsyncSession, user_data: SignupRequest) -> Dict[str, Any]:
         """
         Create a new user account.
         

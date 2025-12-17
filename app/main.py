@@ -14,7 +14,10 @@ from app.config.settings import settings
 from app.database.postgres import init_db, close_db
 from app.routes.auth import router as auth_router
 from app.firebase_auth.routes import router as firebase_router
+from app.core.firebase import init_firebase  # Firebase Admin SDK initialization
+from app.api.v1.router import router as v1_router  # New v1 API router
 import sys
+
 
 # Configure logging
 logging.basicConfig(
@@ -38,11 +41,15 @@ async def lifespan(app: FastAPI):
     logger.info(f"Starting {settings.app_name} v{settings.app_version}...")
     
     try:
+        # Initialize Firebase Admin SDK
+        init_firebase()
+        logger.info("Firebase Admin SDK initialized")
+        
         # Connect to PostgreSQL
         await init_db()
         logger.info("Database connection established")
     except Exception as e:
-        logger.error(f"Failed to connect to database: {e}")
+        logger.error(f"Failed to initialize application: {e}")
         raise
     
     yield
@@ -161,6 +168,7 @@ async def health():
 
 
 # Include routers
+app.include_router(v1_router, prefix="/api")  # New v1 API with Firebase auth
 app.include_router(auth_router, prefix="/api")
 app.include_router(firebase_router, prefix="/api")
 
