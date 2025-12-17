@@ -13,6 +13,7 @@ import logging
 from app.config.settings import settings
 from app.database.postgres import init_db, close_db
 from app.routes.auth import router as auth_router
+from app.firebase_auth.routes import router as firebase_router
 import sys
 
 # Configure logging
@@ -161,6 +162,7 @@ async def health():
 
 # Include routers
 app.include_router(auth_router, prefix="/api")
+app.include_router(firebase_router, prefix="/api")
 
 
 if __name__ == "__main__":

@@ -20,7 +20,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.config.settings import settings
 from app.database.postgres import Base
-from app.models.user import User  # Import all models here
+# Import all models so Alembic can see them
+import app.models  # noqa: F401
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

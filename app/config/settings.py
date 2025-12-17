@@ -72,6 +72,38 @@ class Settings(BaseSettings):
         alias="CAPTCHA_EXPIRY_SECONDS",
         description="CAPTCHA expiration time in seconds"
     )
+
+    # Firebase configuration (metadata and optional service account path)
+    firebase_project_name: str = Field(
+        default="",
+        alias="FIREBASE_PROJECT_NAME",
+        description="Firebase project public name"
+    )
+    firebase_project_id: str = Field(
+        default="",
+        alias="FIREBASE_PROJECT_ID",
+        description="Firebase project id"
+    )
+    firebase_project_number: str = Field(
+        default="",
+        alias="FIREBASE_PROJECT_NUMBER",
+        description="Firebase project number"
+    )
+    firebase_environment_type: str = Field(
+        default="",
+        alias="FIREBASE_ENVIRONMENT_TYPE",
+        description="Environment type for the project"
+    )
+    firebase_public_facing_name: str = Field(
+        default="",
+        alias="FIREBASE_PUBLIC_FACING_NAME",
+        description="Public-facing name for the Firebase project"
+    )
+    firebase_service_account_path: str = Field(
+        default="",
+        alias="FIREBASE_SERVICE_ACCOUNT_PATH",
+        description="Path to Firebase service account JSON file (optional)"
+    )
     
     @property
     def allowed_origins_list(self) -> List[str]:
@@ -92,4 +124,16 @@ def get_settings() -> Settings:
 
 # Export settings instance
 settings = get_settings()
+
+# Convenience helper: get firebase project metadata as dict
+def get_firebase_project_metadata() -> dict:
+    """Return configured Firebase project metadata from settings."""
+    return {
+        "project_name": settings.firebase_project_name,
+        "project_id": settings.firebase_project_id,
+        "project_number": settings.firebase_project_number,
+        "environment_type": settings.firebase_environment_type,
+        "public_facing_name": settings.firebase_public_facing_name,
+        "service_account_path": settings.firebase_service_account_path,
+    }
 
