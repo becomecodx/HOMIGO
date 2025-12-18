@@ -1,0 +1,840 @@
+2025-12-18 19:17:43,798 | INFO | 
+======================================================================
+2025-12-18 19:17:43,798 | INFO |   HOMIGO API COMPREHENSIVE TEST - FRESH DATA
+2025-12-18 19:17:43,798 | INFO |   Test Run ID: 20251218_191743
+2025-12-18 19:17:43,798 | INFO |   Unique ID: cc2d26fa
+2025-12-18 19:17:43,798 | INFO |   Firebase ID: test_user_cc2d26fa
+2025-12-18 19:17:43,798 | INFO |   Log File: tests/api_test_logs_20251218_191743.txt
+2025-12-18 19:17:43,798 | INFO | ======================================================================
+
+2025-12-18 19:17:43,798 | INFO | ============================================================
+2025-12-18 19:17:43,798 | INFO |   1. Health Check
+2025-12-18 19:17:43,798 | INFO | ============================================================
+2025-12-18 19:17:43,798 | INFO | REQUEST: GET /auth/health
+2025-12-18 19:17:43,804 | INFO | STATUS: 200
+2025-12-18 19:17:43,804 | INFO | RESPONSE: {
+  "status": "healthy",
+  "service": "auth-api",
+  "version": "1.0.0"
+}
+2025-12-18 19:17:43,804 | INFO | ✅ SUCCESS
+2025-12-18 19:17:43,804 | INFO | 
+2025-12-18 19:17:43,804 | INFO | ============================================================
+2025-12-18 19:17:43,804 | INFO |   2. Signup New User (type: both)
+2025-12-18 19:17:43,804 | INFO | ============================================================
+2025-12-18 19:17:43,804 | INFO | REQUEST: POST /auth/signup
+2025-12-18 19:17:43,804 | INFO | PAYLOAD: {
+  "firebase_id": "test_user_cc2d26fa",
+  "full_name": "Test User cc2d26fa",
+  "email": "both_user_cc2d26fa@test.com",
+  "phone": "+91987654cc2d",
+  "user_type": "both"
+}
+2025-12-18 19:17:52,794 | INFO | STATUS: 201
+2025-12-18 19:17:52,794 | INFO | RESPONSE: {
+  "success": true,
+  "message": "User registered successfully",
+  "user": {
+    "user_id": "0d976c5c-5361-4ea8-aef5-56a49a01d4a6",
+    "full_name": "Test User cc2d26fa",
+    "email": "both_user_cc2d26fa@test.com",
+    "phone": "+91987654cc2d",
+    "user_type": "both",
+    "profile_photo_url": null,
+    "account_status": "active",
+    "created_at": "2025-12-18T13:47:48.481290",
+    "last_login_at": "2025-12-18T13:47:48.481297"
+  }
+}
+2025-12-18 19:17:52,794 | INFO | ✅ SUCCESS
+2025-12-18 19:17:52,795 | INFO | Created user: 0d976c5c-5361-4ea8-aef5-56a49a01d4a6
+2025-12-18 19:17:52,795 | INFO | 
+2025-12-18 19:17:52,795 | INFO | ============================================================
+2025-12-18 19:17:52,795 | INFO |   3. Login User
+2025-12-18 19:17:52,795 | INFO | ============================================================
+2025-12-18 19:17:52,795 | INFO | REQUEST: POST /auth/login
+2025-12-18 19:17:52,795 | INFO | PAYLOAD: {
+  "firebase_token": "eyJhbGciOiAiUlMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX..."
+}
+2025-12-18 19:17:59,066 | INFO | STATUS: 200
+2025-12-18 19:17:59,067 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Login successful",
+  "user": {
+    "user_id": "0d976c5c-5361-4ea8-aef5-56a49a01d4a6",
+    "full_name": "Test User cc2d26fa",
+    "email": "both_user_cc2d26fa@test.com",
+    "phone": "+91987654cc2d",
+    "user_type": "both",
+    "profile_photo_url": null,
+    "account_status": "active",
+    "created_at": "2025-12-18T13:47:48.481290",
+    "last_login_at": "2025-12-18T13:47:55.195432"
+  },
+  "access_token": null
+}
+2025-12-18 19:17:59,067 | INFO | ✅ SUCCESS
+2025-12-18 19:17:59,067 | INFO | Logged in as: Test User cc2d26fa (type: both)
+2025-12-18 19:17:59,067 | INFO | 
+2025-12-18 19:17:59,067 | INFO | ============================================================
+2025-12-18 19:17:59,067 | INFO |   4. Create Tenant Profile (tenant_jay)
+2025-12-18 19:17:59,067 | INFO | ============================================================
+2025-12-18 19:17:59,067 | INFO | REQUEST: PUT /tenant/profile
+2025-12-18 19:17:59,067 | INFO | PAYLOAD: {
+  "occupation_type": "working_professional",
+  "job_title": "Software Engineer",
+  "company_name": "Tech Corp",
+  "smoking": "no",
+  "drinking": "occasionally",
+  "food_preference": "veg",
+  "bio": "Looking for a peaceful place - tenant_jay",
+  "hobbies": "Reading, Gaming, Music",
+  "languages_spoken": "English, Hindi"
+}
+2025-12-18 19:18:03,459 | INFO | STATUS: 500
+2025-12-18 19:18:03,459 | INFO | RESPONSE: {
+  "success": false,
+  "message": "Internal server error",
+  "error_code": "INTERNAL_ERROR"
+}
+2025-12-18 19:18:03,459 | WARNING | ⚠️  Expected success but got 500
+2025-12-18 19:18:03,459 | INFO | 
+2025-12-18 19:18:03,459 | INFO | ============================================================
+2025-12-18 19:18:03,459 | INFO |   5. Create Host Profile (host_jay)
+2025-12-18 19:18:03,459 | INFO | ============================================================
+2025-12-18 19:18:03,459 | INFO | REQUEST: PUT /host/profile
+2025-12-18 19:18:03,459 | INFO | PAYLOAD: {
+  "host_category": "owner",
+  "bio": "Professional property owner - host_jay",
+  "response_time_expectation": "within_24_hours",
+  "preferred_tenant_types": "working_professionals,students"
+}
+2025-12-18 19:18:11,428 | INFO | STATUS: 200
+2025-12-18 19:18:11,429 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Host profile updated",
+  "data": {
+    "host_profile_id": "41df2594-2155-43a2-85e3-249be803c077",
+    "user_id": "0d976c5c-5361-4ea8-aef5-56a49a01d4a6",
+    "host_category": "owner",
+    "company_name": null,
+    "company_registration_number": null,
+    "gst_number": null,
+    "bio": "Professional property owner - host_jay",
+    "response_time_expectation": "within_24_hours",
+    "preferred_tenant_types": "working_professionals,students",
+    "avg_rating": 0.0,
+    "total_ratings": 0,
+    "total_properties_listed": 0,
+    "successful_matches": 0,
+    "is_premium": false,
+    "premium_expires_at": null,
+    "created_at": "2025-12-18T13:48:06.721332",
+    "updated_at": "2025-12-18T13:48:06.721339"
+  }
+}
+2025-12-18 19:18:11,429 | INFO | ✅ SUCCESS
+2025-12-18 19:18:11,430 | INFO | Created host profile: 41df2594-2155-43a2-85e3-249be803c077
+2025-12-18 19:18:11,430 | INFO | 
+2025-12-18 19:18:11,430 | INFO | ============================================================
+2025-12-18 19:18:11,430 | INFO |   6. Update User to 'both_up_jay'
+2025-12-18 19:18:11,430 | INFO | ============================================================
+2025-12-18 19:18:11,430 | INFO | REQUEST: PUT /auth/me
+2025-12-18 19:18:11,430 | INFO | PAYLOAD: {
+  "full_name": "both_up_jay_cc2d26fa"
+}
+2025-12-18 19:18:16,601 | INFO | STATUS: 200
+2025-12-18 19:18:16,601 | INFO | RESPONSE: {
+  "user_id": "0d976c5c-5361-4ea8-aef5-56a49a01d4a6",
+  "full_name": "both_up_jay_cc2d26fa",
+  "email": "both_user_cc2d26fa@test.com",
+  "phone": "+91987654cc2d",
+  "user_type": "both",
+  "profile_photo_url": null,
+  "account_status": "active",
+  "created_at": "2025-12-18T13:47:48.481290",
+  "last_login_at": "2025-12-18T13:47:55.195432"
+}
+2025-12-18 19:18:16,602 | INFO | ✅ SUCCESS
+2025-12-18 19:18:16,602 | INFO | 
+2025-12-18 19:18:16,602 | INFO | ============================================================
+2025-12-18 19:18:16,602 | INFO |   7. Set Tenant Priorities
+2025-12-18 19:18:16,602 | INFO | ============================================================
+2025-12-18 19:18:16,602 | INFO | REQUEST: PUT /tenant/priorities
+2025-12-18 19:18:16,602 | INFO | PAYLOAD: {
+  "budget_priority": 1,
+  "location_priority": 2,
+  "property_type_priority": 3,
+  "furnishing_priority": 4,
+  "occupancy_priority": 5,
+  "possession_priority": 6,
+  "gender_priority": 7,
+  "lifestyle_priority": 8
+}
+2025-12-18 19:18:24,358 | INFO | STATUS: 200
+2025-12-18 19:18:24,359 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Priorities updated successfully",
+  "data": {
+    "priority_id": "97f5235c-f2af-44a0-9928-27ede7bdc327",
+    "user_id": "0d976c5c-5361-4ea8-aef5-56a49a01d4a6",
+    "budget_priority": 1,
+    "occupancy_priority": 5,
+    "location_priority": 2,
+    "possession_priority": 6,
+    "gender_priority": 7,
+    "property_type_priority": 3,
+    "lifestyle_priority": 8,
+    "furnishing_priority": 4,
+    "created_at": "2025-12-18T13:48:19.314046",
+    "updated_at": "2025-12-18T13:48:19.314052"
+  }
+}
+2025-12-18 19:18:24,359 | INFO | ✅ SUCCESS
+2025-12-18 19:18:24,359 | INFO | 
+2025-12-18 19:18:24,359 | INFO | ============================================================
+2025-12-18 19:18:24,359 | INFO |   8. Post Tenant Requirement
+2025-12-18 19:18:24,359 | INFO | ============================================================
+2025-12-18 19:18:24,359 | INFO | REQUEST: POST /tenant/requirements
+2025-12-18 19:18:24,359 | INFO | PAYLOAD: {
+  "title": "Looking for 2BHK in Bandra - cc2d26fa",
+  "description": "Need a peaceful 2BHK flat near Bandra station for working professional",
+  "budget_min": 25000,
+  "budget_max": 40000,
+  "preferred_localities": [
+    "Bandra West",
+    "Khar",
+    "Santacruz"
+  ],
+  "occupancy": "single",
+  "property_type": "apartment",
+  "furnishing": "semi_furnished",
+  "possession_date": "2026-01-17",
+  "lease_duration_months": 11,
+  "gender_preference": "any",
+  "want_non_smoker": true,
+  "want_vegetarian": true
+}
+2025-12-18 19:18:29,797 | INFO | STATUS: 201
+2025-12-18 19:18:29,797 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Requirement created successfully",
+  "data": {
+    "requirement_id": "3cd60244-090e-4e42-bd3b-1104fd7ea3e2",
+    "user_id": "0d976c5c-5361-4ea8-aef5-56a49a01d4a6",
+    "title": "Looking for 2BHK in Bandra - cc2d26fa",
+    "description": "Need a peaceful 2BHK flat near Bandra station for working professional",
+    "budget_min": 25000.0,
+    "budget_max": 40000.0,
+    "preferred_localities": {
+      "localities": [
+        "Bandra West",
+        "Khar",
+        "Santacruz"
+      ]
+    },
+    "preferred_coordinates": null,
+    "occupancy": "single",
+    "property_type": "apartment",
+    "furnishing": "semi_furnished",
+    "possession_date": "2026-01-17",
+    "lease_duration_months": 11,
+    "gender_preference": "any",
+    "flatmate_occupation_preference": null,
+    "want_non_smoker": true,
+    "want_non_drinker": false,
+    "want_vegetarian": true,
+    "want_non_party": false,
+    "other_preferences": null,
+    "contact_visibility": "verified_hosts_only",
+    "status": "draft",
+    "expires_at": "2026-01-17",
+    "views_count": 0,
+    "likes_count": 0,
+    "is_premium": false,
+    "premium_expires_at": null,
+    "created_at": "2025-12-18T13:48:26.170147",
+    "updated_at": "2025-12-18T13:48:26.170150"
+  }
+}
+2025-12-18 19:18:29,797 | INFO | ✅ SUCCESS
+2025-12-18 19:18:29,797 | INFO | Created requirement: 3cd60244-090e-4e42-bd3b-1104fd7ea3e2
+2025-12-18 19:18:29,797 | INFO | 
+2025-12-18 19:18:29,797 | INFO | ============================================================
+2025-12-18 19:18:29,797 | INFO |   9. Activate Requirement
+2025-12-18 19:18:29,797 | INFO | ============================================================
+2025-12-18 19:18:29,797 | INFO | REQUEST: POST /tenant/requirements/3cd60244-090e-4e42-bd3b-1104fd7ea3e2/activate
+2025-12-18 19:18:36,437 | INFO | STATUS: 200
+2025-12-18 19:18:36,439 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Requirement activated successfully",
+  "data": {
+    "requirement_id": "3cd60244-090e-4e42-bd3b-1104fd7ea3e2",
+    "user_id": "0d976c5c-5361-4ea8-aef5-56a49a01d4a6",
+    "title": "Looking for 2BHK in Bandra - cc2d26fa",
+    "description": "Need a peaceful 2BHK flat near Bandra station for working professional",
+    "budget_min": 25000.0,
+    "budget_max": 40000.0,
+    "preferred_localities": {
+      "localities": [
+        "Bandra West",
+        "Khar",
+        "Santacruz"
+      ]
+    },
+    "preferred_coordinates": null,
+    "occupancy": "single",
+    "property_type": "apartment",
+    "furnishing": "semi_furnished",
+    "possession_date": "2026-01-17",
+    "lease_duration_months": 11,
+    "gender_preference": "any",
+    "flatmate_occupation_preference": null,
+    "want_non_smoker": true,
+    "want_non_drinker": false,
+    "want_vegetarian": true,
+    "want_non_party": false,
+    "other_preferences": null,
+    "contact_visibility": "verified_hosts_only",
+    "status": "active",
+    "expires_at": "2026-01-17",
+    "views_count": 0,
+    "likes_count": 0,
+    "is_premium": false,
+    "premium_expires_at": null,
+    "created_at": "2025-12-18T13:48:26.170147",
+    "updated_at": "2025-12-18T13:48:33.007800"
+  }
+}
+2025-12-18 19:18:36,439 | INFO | ✅ SUCCESS
+2025-12-18 19:18:36,439 | INFO | 
+2025-12-18 19:18:36,439 | INFO | ============================================================
+2025-12-18 19:18:36,439 | INFO |   10. Create Property Listing
+2025-12-18 19:18:36,439 | INFO | ============================================================
+2025-12-18 19:18:36,439 | INFO | REQUEST: POST /listings
+2025-12-18 19:18:36,439 | INFO | PAYLOAD: {
+  "title": "Beautiful 3BHK Apartment - cc2d26fa",
+  "description": "Spacious 3BHK with modern amenities and great connectivity",
+  "locality": "Andheri West",
+  "city": "Mumbai",
+  "state": "Maharashtra",
+  "pincode": "400053",
+  "property_type": "apartment",
+  "configuration": "3bhk",
+  "floor_number": 8,
+  "total_floors": 15,
+  "total_area_sqft": 1200,
+  "furnishing": "fully_furnished",
+  "amenities": {
+    "has_wifi": true,
+    "has_ac": true,
+    "has_fridge": true,
+    "has_washing_machine": true,
+    "has_tv": true
+  },
+  "restrictions": {
+    "pets_allowed": false,
+    "non_veg_allowed": true,
+    "drinking_allowed": true
+  },
+  "financial": {
+    "rent_monthly": 45000,
+    "deposit_amount": 90000,
+    "brokerage_amount": 45000,
+    "maintenance_monthly": 3000
+  },
+  "possession_date": "2026-01-02",
+  "minimum_lease_months": 11,
+  "other_highlights": "Sea view, Gym, Swimming Pool, Covered parking"
+}
+2025-12-18 19:18:44,503 | INFO | STATUS: 201
+2025-12-18 19:18:44,504 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Listing created successfully",
+  "data": {
+    "listing_id": "85a7695b-545e-4d70-bc23-1fbb09e73dff",
+    "status": "draft",
+    "payment_required": true,
+    "payment_amount": 499.0,
+    "next_steps": [
+      "Upload minimum 3 photos in sequence",
+      "Complete payment to publish"
+    ]
+  }
+}
+2025-12-18 19:18:44,504 | INFO | ✅ SUCCESS
+2025-12-18 19:18:44,504 | INFO | Created listing: 85a7695b-545e-4d70-bc23-1fbb09e73dff
+2025-12-18 19:18:44,504 | INFO | 
+2025-12-18 19:18:44,504 | INFO | ============================================================
+2025-12-18 19:18:44,504 | INFO |   11. Publish Listing
+2025-12-18 19:18:44,504 | INFO | ============================================================
+2025-12-18 19:18:44,504 | INFO | REQUEST: POST /listings/85a7695b-545e-4d70-bc23-1fbb09e73dff/publish
+2025-12-18 19:18:50,279 | INFO | STATUS: 200
+2025-12-18 19:18:50,280 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Listing published successfully",
+  "data": {
+    "listing_id": "85a7695b-545e-4d70-bc23-1fbb09e73dff",
+    "status": "active",
+    "published_at": "2025-12-18T13:48:49.196411",
+    "expires_at": "2026-01-17"
+  }
+}
+2025-12-18 19:18:50,280 | INFO | ✅ SUCCESS
+2025-12-18 19:18:50,280 | INFO | 
+2025-12-18 19:18:50,280 | INFO | ============================================================
+2025-12-18 19:18:50,280 | INFO |   12. Get My Listings
+2025-12-18 19:18:50,280 | INFO | ============================================================
+2025-12-18 19:18:50,280 | INFO | REQUEST: GET /listings/my
+2025-12-18 19:18:56,122 | INFO | STATUS: 200
+2025-12-18 19:18:56,122 | INFO | RESPONSE: {
+  "success": true,
+  "data": {
+    "listings": [
+      {
+        "listing_id": "85a7695b-545e-4d70-bc23-1fbb09e73dff",
+        "host_id": "0d976c5c-5361-4ea8-aef5-56a49a01d4a6",
+        "title": "Beautiful 3BHK Apartment - cc2d26fa",
+        "description": "Spacious 3BHK with modern amenities and great connectivity",
+        "locality": "Andheri West",
+        "tower_building_name": null,
+        "full_address": null,
+        "coordinates": null,
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "pincode": "400053",
+        "property_type": "apartment",
+        "configuration": "3bhk",
+        "floor_number": 8,
+        "total_floors": 15,
+        "total_area_sqft": 1200,
+        "rentable_area_type": null,
+        "furnishing": "fully_furnished",
+        "has_wifi": true,
+        "has_fridge": true,
+        "has_ac": true,
+        "has_fans": true,
+        "has_washing_machine": true,
+        "has_tv": true,
+        "has_gas_connection": false,
+        "parking_type": null,
+        "wc_type": null,
+        "total_bathrooms": null,
+        "water_supply_type": null,
+        "water_supply_hours": null,
+        "property_age_years": null,
+        "pets_allowed": false,
+        "non_veg_allowed": true,
+        "drinking_allowed": true,
+        "partying_allowed": true,
+        "guests_allowed": true,
+        "suitable_for": null,
+        "open_for_gender": null,
+        "open_for_occupation": null,
+        "cook_available": false,
+        "maid_available": false,
+        "current_flatmates_count": 0,
+        "flatmates_info": null,
+        "rent_monthly": 45000.0,
+        "deposit_amount": 90000.0,
+        "brokerage_amount": 45000.0,
+        "maintenance_monthly": 3000.0,
+        "possession_date": "2026-01-02",
+        "minimum_lease_months": 11,
+        "status": "active",
+        "views_count": 0,
+        "likes_count": 0,
+        "contact_requests_count": 0,
+        "is_premium": false,
+        "is_featured": false,
+        "photos": [],
+        
+... (truncated)
+2025-12-18 19:18:56,122 | INFO | ✅ SUCCESS
+2025-12-18 19:18:56,123 | INFO | Found 1 listings
+2025-12-18 19:18:56,123 | INFO | 
+2025-12-18 19:18:56,123 | INFO | ============================================================
+2025-12-18 19:18:56,123 | INFO |   13. Get Listings Feed
+2025-12-18 19:18:56,123 | INFO | ============================================================
+2025-12-18 19:18:56,123 | INFO | REQUEST: GET /feed/listings
+2025-12-18 19:18:56,123 | INFO | PAYLOAD: {
+  "city": "Mumbai",
+  "budget_max": 100000,
+  "limit": 10
+}
+2025-12-18 19:19:01,042 | INFO | STATUS: 200
+2025-12-18 19:19:01,043 | INFO | RESPONSE: {
+  "success": true,
+  "data": {
+    "listings": [
+      {
+        "listing_id": "85a7695b-545e-4d70-bc23-1fbb09e73dff",
+        "title": "Beautiful 3BHK Apartment - cc2d26fa",
+        "rent_monthly": 45000.0,
+        "deposit_amount": 90000.0,
+        "locality": "Andheri West",
+        "city": "Mumbai",
+        "configuration": "3bhk",
+        "furnishing": "fully_furnished",
+        "property_type": "apartment",
+        "primary_photo": null,
+        "photos_count": 0,
+        "host": {
+          "user_id": "0d976c5c-5361-4ea8-aef5-56a49a01d4a6",
+          "full_name": "both_up_jay_cc2d26fa",
+          "profile_photo_url": null
+        },
+        "views_count": 0,
+        "likes_count": 0,
+        "is_premium": false,
+        "is_featured": false,
+        "created_at": "2025-12-18T13:48:40.207173",
+        "possession_date": "2026-01-02"
+      }
+    ],
+    "pagination": {
+      "current_page": 1,
+      "total_pages": 1,
+      "total_items": 1,
+      "items_per_page": 10,
+      "has_more": false
+    }
+  }
+}
+2025-12-18 19:19:01,043 | INFO | ✅ SUCCESS
+2025-12-18 19:19:01,043 | INFO | Feed returned 1 listings
+2025-12-18 19:19:01,043 | INFO | 
+2025-12-18 19:19:01,043 | INFO | ============================================================
+2025-12-18 19:19:01,043 | INFO |   14. Get Requirements Feed
+2025-12-18 19:19:01,043 | INFO | ============================================================
+2025-12-18 19:19:01,043 | INFO | REQUEST: GET /feed/requirements
+2025-12-18 19:19:01,043 | INFO | PAYLOAD: {
+  "budget_min": 10000,
+  "budget_max": 100000,
+  "limit": 10
+}
+2025-12-18 19:19:07,090 | INFO | STATUS: 200
+2025-12-18 19:19:07,091 | INFO | RESPONSE: {
+  "success": true,
+  "data": {
+    "requirements": [
+      {
+        "requirement_id": "3cd60244-090e-4e42-bd3b-1104fd7ea3e2",
+        "user": {
+          "user_id": "0d976c5c-5361-4ea8-aef5-56a49a01d4a6",
+          "full_name": "both_up_jay_cc2d26fa",
+          "profile_photo_url": null
+        },
+        "title": "Looking for 2BHK in Bandra - cc2d26fa",
+        "description": "Need a peaceful 2BHK flat near Bandra station for working professional",
+        "budget_min": 25000.0,
+        "budget_max": 40000.0,
+        "preferred_localities": [
+          "Bandra West",
+          "Khar",
+          "Santacruz"
+        ],
+        "occupancy": "single",
+        "property_type": "apartment",
+        "furnishing": "semi_furnished",
+        "possession_date": "2026-01-17",
+        "gender_preference": "any",
+        "preferences": {
+          "want_non_smoker": true,
+          "want_non_drinker": false,
+          "want_vegetarian": true,
+          "want_non_party": false
+        },
+        "views_count": 0,
+        "likes_count": 0,
+        "is_premium": false,
+        "created_at": "2025-12-18T13:48:26.170147",
+        "expires_at": "2026-01-17"
+      },
+      {
+        "requirement_id": "03ed3999-acec-4701-8183-e2c9621c7303",
+        "user": {
+          "user_id": "c5f02332-34ea-4e19-b369-c2e1945f999c",
+          "full_name": "both_up_jay_342371ef",
+          "profile_photo_url": null
+        },
+        "title": "Looking for 2BHK in Bandra - 342371ef",
+        "description": "Need a peaceful 2BHK flat near Bandra station for working professional",
+        "budget_min": 25000.0,
+        "budget_max": 40000.0,
+        "preferred_localities": [
+          "Bandra West",
+          "Khar",
+          "Santacruz"
+        ],
+        "occupancy": "single",
+        "property_type": "apartment",
+        "furnishing": "semi_furnished",
+        "possession_date": "2026-01-17",
+        "gender_preference": "any",
+        "preferences": {
+          "want_non_smoker": true,
+          "
+... (truncated)
+2025-12-18 19:19:07,091 | INFO | ✅ SUCCESS
+2025-12-18 19:19:07,091 | INFO | Feed returned 2 requirements
+2025-12-18 19:19:07,091 | INFO | 
+2025-12-18 19:19:07,091 | INFO | ============================================================
+2025-12-18 19:19:07,091 | INFO |   15. Search Listings
+2025-12-18 19:19:07,091 | INFO | ============================================================
+2025-12-18 19:19:07,091 | INFO | REQUEST: GET /feed/search/listings
+2025-12-18 19:19:07,091 | INFO | PAYLOAD: {
+  "q": "apartment"
+}
+2025-12-18 19:19:12,391 | INFO | STATUS: 200
+2025-12-18 19:19:12,391 | INFO | RESPONSE: {
+  "success": true,
+  "data": {
+    "listings": [
+      {
+        "listing_id": "85a7695b-545e-4d70-bc23-1fbb09e73dff",
+        "title": "Beautiful 3BHK Apartment - cc2d26fa",
+        "rent_monthly": 45000.0,
+        "locality": "Andheri West",
+        "city": "Mumbai",
+        "configuration": "3bhk",
+        "primary_photo": null,
+        "is_premium": false
+      }
+    ],
+    "query": "apartment",
+    "pagination": {
+      "current_page": 1,
+      "total_pages": 1,
+      "total_items": 1,
+      "items_per_page": 20
+    }
+  }
+}
+2025-12-18 19:19:12,391 | INFO | ✅ SUCCESS
+2025-12-18 19:19:12,391 | INFO | Search returned 1 listings
+2025-12-18 19:19:12,391 | INFO | 
+2025-12-18 19:19:12,391 | INFO | ============================================================
+2025-12-18 19:19:12,391 | INFO |   16. Save a Listing
+2025-12-18 19:19:12,391 | INFO | ============================================================
+2025-12-18 19:19:12,391 | INFO | REQUEST: POST /matching/save?listing_id=85a7695b-545e-4d70-bc23-1fbb09e73dff
+2025-12-18 19:19:19,397 | INFO | STATUS: 200
+2025-12-18 19:19:19,398 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Item saved successfully",
+  "data": {
+    "saved_id": "7b8be349-7d98-4c5b-82a6-5c3f18074a56"
+  }
+}
+2025-12-18 19:19:19,398 | INFO | ✅ SUCCESS
+2025-12-18 19:19:19,398 | INFO | 
+2025-12-18 19:19:19,398 | INFO | ============================================================
+2025-12-18 19:19:19,399 | INFO |   17. Get Saved Items
+2025-12-18 19:19:19,399 | INFO | ============================================================
+2025-12-18 19:19:19,399 | INFO | REQUEST: GET /matching/saved
+2025-12-18 19:19:23,565 | INFO | STATUS: 200
+2025-12-18 19:19:23,565 | INFO | RESPONSE: {
+  "success": true,
+  "data": {
+    "saved_items": [
+      {
+        "saved_id": "7b8be349-7d98-4c5b-82a6-5c3f18074a56",
+        "saved_listing_id": "85a7695b-545e-4d70-bc23-1fbb09e73dff",
+        "saved_requirement_id": null,
+        "notes": null,
+        "created_at": "2025-12-18T13:49:15.643980"
+      }
+    ],
+    "pagination": {
+      "current_page": 1,
+      "total_pages": 1,
+      "total_items": 1,
+      "items_per_page": 20
+    }
+  }
+}
+2025-12-18 19:19:23,565 | INFO | ✅ SUCCESS
+2025-12-18 19:19:23,565 | INFO | Found 1 saved items
+2025-12-18 19:19:23,565 | INFO | 
+2025-12-18 19:19:23,566 | INFO | ============================================================
+2025-12-18 19:19:23,566 | INFO |   18. Swipe/Like Action
+2025-12-18 19:19:23,566 | INFO | ============================================================
+2025-12-18 19:19:23,566 | INFO | REQUEST: POST /matching/swipe
+2025-12-18 19:19:23,566 | INFO | PAYLOAD: {
+  "swiper_type": "tenant",
+  "action": "like",
+  "swiped_listing_id": "85a7695b-545e-4d70-bc23-1fbb09e73dff",
+  "swiped_user_id": "0d976c5c-5361-4ea8-aef5-56a49a01d4a6"
+}
+2025-12-18 19:19:35,512 | INFO | STATUS: 200
+2025-12-18 19:19:35,513 | INFO | RESPONSE: {
+  "success": true,
+  "message": "It's a Match! \ud83c\udf89",
+  "data": {
+    "swipe_id": "3050a790-dd6c-43c4-a43d-f7e2698e491d",
+    "action": "like",
+    "is_match": true,
+    "match": {
+      "match_id": "07573d15-0649-45b3-a614-17aa748fcd3c",
+      "matched_at": "2025-12-18T13:49:31.715185",
+      "contact_shared": true
+    }
+  }
+}
+2025-12-18 19:19:35,513 | INFO | ✅ SUCCESS
+2025-12-18 19:19:35,513 | INFO | Match created! ID: 07573d15-0649-45b3-a614-17aa748fcd3c
+2025-12-18 19:19:35,514 | INFO | 
+2025-12-18 19:19:35,514 | INFO | ============================================================
+2025-12-18 19:19:35,514 | INFO |   19. Get Matches
+2025-12-18 19:19:35,514 | INFO | ============================================================
+2025-12-18 19:19:35,514 | INFO | REQUEST: GET /matching/matches
+2025-12-18 19:19:42,158 | INFO | STATUS: 200
+2025-12-18 19:19:42,158 | INFO | RESPONSE: {
+  "success": true,
+  "data": {
+    "matches": [
+      {
+        "match_id": "07573d15-0649-45b3-a614-17aa748fcd3c",
+        "my_role": "tenant",
+        "matched_user": {
+          "user_id": "0d976c5c-5361-4ea8-aef5-56a49a01d4a6",
+          "full_name": "both_up_jay_cc2d26fa",
+          "profile_photo_url": null,
+          "user_type": "both"
+        },
+        "listing": {
+          "listing_id": "85a7695b-545e-4d70-bc23-1fbb09e73dff",
+          "title": "Beautiful 3BHK Apartment - cc2d26fa",
+          "rent_monthly": 45000.0,
+          "locality": "Andheri West"
+        },
+        "requirement": null,
+        "compatibility_score": null,
+        "match_status": "active",
+        "contact_shared": true,
+        "chat_enabled": true,
+        "visit_scheduled": false,
+        "visit_date": null,
+        "visit_status": null,
+        "deal_closed": false,
+        "matched_at": "2025-12-18T13:49:31.715185"
+      }
+    ],
+    "pagination": {
+      "current_page": 1,
+      "total_pages": 1,
+      "total_items": 1,
+      "items_per_page": 20
+    }
+  }
+}
+2025-12-18 19:19:42,158 | INFO | ✅ SUCCESS
+2025-12-18 19:19:42,159 | INFO | Found 1 matches
+2025-12-18 19:19:42,159 | INFO | 
+2025-12-18 19:19:42,159 | INFO | ============================================================
+2025-12-18 19:19:42,159 | INFO |   20. Mark as Rented
+2025-12-18 19:19:42,159 | INFO | ============================================================
+2025-12-18 19:19:42,159 | INFO | REQUEST: POST /listings/85a7695b-545e-4d70-bc23-1fbb09e73dff/mark-rented
+2025-12-18 19:19:42,159 | INFO | PAYLOAD: {
+  "rent_amount": 45000,
+  "notes": "Test rental completed"
+}
+2025-12-18 19:19:47,282 | INFO | STATUS: 200
+2025-12-18 19:19:47,282 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Listing marked as rented"
+}
+2025-12-18 19:19:47,283 | INFO | ✅ SUCCESS
+2025-12-18 19:19:47,283 | INFO | 
+2025-12-18 19:19:47,283 | INFO | ============================================================
+2025-12-18 19:19:47,283 | INFO |   21. Get Host Profile (host_jay)
+2025-12-18 19:19:47,283 | INFO | ============================================================
+2025-12-18 19:19:47,283 | INFO | REQUEST: GET /host/profile
+2025-12-18 19:19:49,878 | INFO | STATUS: 200
+2025-12-18 19:19:49,878 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Profile retrieved",
+  "data": {
+    "host_profile_id": "41df2594-2155-43a2-85e3-249be803c077",
+    "user_id": "0d976c5c-5361-4ea8-aef5-56a49a01d4a6",
+    "host_category": "owner",
+    "company_name": null,
+    "company_registration_number": null,
+    "gst_number": null,
+    "bio": "Professional property owner - host_jay",
+    "response_time_expectation": "within_24_hours",
+    "preferred_tenant_types": "working_professionals,students",
+    "avg_rating": 0.0,
+    "total_ratings": 0,
+    "total_properties_listed": 1,
+    "successful_matches": 1,
+    "is_premium": false,
+    "premium_expires_at": null,
+    "created_at": "2025-12-18T13:48:06.721332",
+    "updated_at": "2025-12-18T13:49:45.317825"
+  }
+}
+2025-12-18 19:19:49,878 | INFO | ✅ SUCCESS
+2025-12-18 19:19:49,878 | INFO | Host bio: Professional property owner - host_jay
+2025-12-18 19:19:49,878 | INFO | 
+2025-12-18 19:19:49,878 | INFO | ============================================================
+2025-12-18 19:19:49,878 | INFO |   22. Get Tenant Profile (tenant_jay)
+2025-12-18 19:19:49,878 | INFO | ============================================================
+2025-12-18 19:19:49,878 | INFO | REQUEST: GET /tenant/profile
+2025-12-18 19:19:53,215 | INFO | STATUS: 404
+2025-12-18 19:19:53,215 | INFO | RESPONSE: {
+  "success": false,
+  "message": "Tenant profile not found. Please create one first.",
+  "error_code": null
+}
+2025-12-18 19:19:53,215 | WARNING | ⚠️  Expected success but got 404
+2025-12-18 19:19:53,215 | INFO | 
+2025-12-18 19:19:53,215 | INFO | ============================================================
+2025-12-18 19:19:53,215 | INFO |   23. Get User Profile
+2025-12-18 19:19:53,215 | INFO | ============================================================
+2025-12-18 19:19:53,215 | INFO | REQUEST: GET /auth/me
+2025-12-18 19:19:55,569 | INFO | STATUS: 200
+2025-12-18 19:19:55,569 | INFO | RESPONSE: {
+  "user_id": "0d976c5c-5361-4ea8-aef5-56a49a01d4a6",
+  "full_name": "both_up_jay_cc2d26fa",
+  "email": "both_user_cc2d26fa@test.com",
+  "phone": "+91987654cc2d",
+  "user_type": "both",
+  "profile_photo_url": null,
+  "account_status": "active",
+  "created_at": "2025-12-18T13:47:48.481290",
+  "last_login_at": "2025-12-18T13:47:55.195432"
+}
+2025-12-18 19:19:55,570 | INFO | ✅ SUCCESS
+2025-12-18 19:19:55,570 | INFO | User: both_up_jay_cc2d26fa (type: both)
+2025-12-18 19:19:55,570 | INFO | 
+2025-12-18 19:19:55,570 | INFO | ============================================================
+2025-12-18 19:19:55,570 | INFO |   TEST SUMMARY
+2025-12-18 19:19:55,570 | INFO | ============================================================
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 1. Health Check
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 2. Signup New User (type: both)
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 3. Login User
+2025-12-18 19:19:55,570 | INFO | ❌ FAILED - 4. Create Tenant Profile (tenant_jay)
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 5. Create Host Profile (host_jay)
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 6. Update User to 'both_up_jay'
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 7. Set Tenant Priorities
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 8. Post Tenant Requirement
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 9. Activate Requirement
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 10. Create Property Listing
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 11. Publish Listing
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 12. Get My Listings
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 13. Get Listings Feed
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 14. Get Requirements Feed
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 15. Search Listings
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 16. Save a Listing
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 17. Get Saved Items
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 18. Swipe/Like Action
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 19. Get Matches
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 20. Mark as Rented
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 21. Get Host Profile (host_jay)
+2025-12-18 19:19:55,570 | INFO | ❌ FAILED - 22. Get Tenant Profile (tenant_jay)
+2025-12-18 19:19:55,570 | INFO | ✅ PASSED - 23. Get User Profile
+2025-12-18 19:19:55,570 | INFO | 
+Total: 23 | Passed: 21 | Failed: 2
+2025-12-18 19:19:55,570 | INFO | 
+📄 Full logs saved to: tests/api_test_logs_20251218_191743.txt

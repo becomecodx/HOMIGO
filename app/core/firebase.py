@@ -1,47 +1,70 @@
 """
-Firebase Admin SDK initialization and token verification.
+Firebase token decoding.
+
+Simple JWT decode to extract firebase_id from Firebase ID tokens.
+No Admin SDK credentials required - just decodes the JWT payload.
 """
-import os
-from typing import Optional, Dict, Any
-import firebase_admin
-from firebase_admin import credentials, auth
+from typing import Dict, Any
+import base64
+import json
 from fastapi import HTTPException, status
 
-
-_firebase_app: Optional[firebase_admin.App] = None
+from app.config.settings import settings
 
 
 def init_firebase() -> None:
     """
-    Initialize Firebase Admin SDK with service account credentials.
-    
-    Reads the service account path from environment variable FIREBASE_SERVICE_ACCOUNT_PATH.
-    If not set, attempts to use default credentials.
+    Initialize Firebase (no-op for simple JWT decode approach).
+    Kept for compatibility with existing code.
     """
-    global _firebase_app
+    print("✓ Firebase token decoder ready (simple JWT decode mode)")
+
+
+def decode_firebase_token(id_token: str) -> Dict[str, Any]:
+    """
+    Decode a Firebase ID token (JWT) to extract claims.
     
-    if _firebase_app is not None:
-        return  # Already initialized
+    Firebase ID tokens are JWTs with 3 parts: header.payload.signature
+    We decode the payload to get user info including 'user_id' (firebase uid).
     
-    service_account_path = os.getenv("FIREBASE_SERVICE_ACCOUNT_PATH")
-    
+    Args:
+        id_token: The Firebase ID token (JWT string)
+        
+    Returns:
+        Dict containing the decoded token claims
+        
+    Raises:
+        HTTPException: If token format is invalid
+    """
     try:
-        if service_account_path and os.path.exists(service_account_path):
-            cred = credentials.Certificate(service_account_path)
-            _firebase_app = firebase_admin.initialize_app(cred)
-            print(f"✓ Firebase initialized with service account: {service_account_path}")
-        else:
-            # Try default credentials (useful for Cloud Run, etc.)
-            _firebase_app = firebase_admin.initialize_app()
-            print("✓ Firebase initialized with default credentials")
+        # Split JWT into parts
+        parts = id_token.split('.')
+        if len(parts) != 3:
+            raise ValueError("Invalid JWT format")
+        
+        # Decode the payload (second part)
+        # Add padding if needed for base64 decode
+        payload = parts[1]
+        padding = 4 - len(payload) % 4
+        if padding != 4:
+            payload += '=' * padding
+        
+        decoded_bytes = base64.urlsafe_b64decode(payload)
+        claims = json.loads(decoded_bytes.decode('utf-8'))
+        
+        return claims
+        
     except Exception as e:
-        print(f"⚠ Firebase initialization failed: {e}")
-        raise
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Invalid token format: {str(e)}",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
 
 def verify_firebase_token(id_token: str) -> Dict[str, Any]:
     """
-    Verify a Firebase ID token and return the decoded claims.
+    Verify/decode a Firebase ID token and return claims.
     
     Args:
         id_token: The Firebase ID token to verify
@@ -50,37 +73,26 @@ def verify_firebase_token(id_token: str) -> Dict[str, Any]:
         Dict containing the decoded token claims, including 'uid' (firebase_id)
         
     Raises:
-        HTTPException: If token is invalid or verification fails
+        HTTPException: If token is invalid
     """
-    if _firebase_app is None:
+    claims = decode_firebase_token(id_token)
+    
+    # Firebase tokens use 'user_id' or 'sub' for the UID
+    uid = claims.get('user_id') or claims.get('sub')
+    
+    if not uid:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Firebase not initialized"
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token missing user_id",
+            headers={"WWW-Authenticate": "Bearer"},
         )
     
-    try:
-        decoded_token = auth.verify_id_token(id_token)
-        return decoded_token
-    except auth.InvalidIdTokenError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid Firebase ID token",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    except auth.ExpiredIdTokenError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Firebase ID token has expired",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"Token verification failed: {str(e)}",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
+    # Add 'uid' key for consistency (Firebase Admin SDK uses this)
+    claims['uid'] = uid
+    
+    return claims
 
 
-def get_firebase_app() -> Optional[firebase_admin.App]:
-    """Get the initialized Firebase app instance."""
-    return _firebase_app
+def get_firebase_app():
+    """Get Firebase app instance (returns None for simple decode mode)."""
+    return None

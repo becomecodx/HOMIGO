@@ -116,7 +116,7 @@ class PropertyListing(Base):
     updated_at: Mapped[Optional[datetime]] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     published_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
 
-    host: Mapped["HostProfile"] = relationship("HostProfile", back_populates="listings")
+    host: Mapped["User"] = relationship("User", foreign_keys=[host_id])
     photos: Mapped[List["PropertyPhoto"]] = relationship("PropertyPhoto", back_populates="listing", cascade="all, delete-orphan")
     matches: Mapped[List["Match"]] = relationship("Match", back_populates="listing", cascade="all, delete-orphan")
 

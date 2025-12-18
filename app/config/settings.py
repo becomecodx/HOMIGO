@@ -104,6 +104,11 @@ class Settings(BaseSettings):
         alias="FIREBASE_SERVICE_ACCOUNT_PATH",
         description="Path to Firebase service account JSON file (optional)"
     )
+    firebase_service_account_json: str = Field(
+        default="",
+        alias="FIREBASE_SERVICE_ACCOUNT_JSON",
+        description="Firebase service account JSON content as string (for production hosting)"
+    )
     
     @property
     def allowed_origins_list(self) -> List[str]:

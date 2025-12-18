@@ -4,7 +4,8 @@ FastAPI dependencies for authentication and authorization.
 from typing import Optional
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 
 from app.core.firebase import verify_firebase_token
 from app.database.postgres import get_db
@@ -36,7 +37,7 @@ async def get_current_firebase_user(
 
 async def get_current_user(
     firebase_user: dict = Depends(get_current_firebase_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ) -> User:
     """
     Full authentication flow: verify Firebase token → get firebase_id → lookup user in DB.
@@ -59,7 +60,10 @@ async def get_current_user(
             detail="Firebase UID not found in token"
         )
     
-    user = db.query(User).filter(User.firebase_id == firebase_id).first()
+    result = await db.execute(
+        select(User).where(User.firebase_id == firebase_id)
+    )
+    user = result.scalar_one_or_none()
     
     if not user:
         raise HTTPException(
@@ -72,7 +76,7 @@ async def get_current_user(
 
 async def get_optional_user(
     credentials: Optional[HTTPAuthorizationCredentials] = Depends(HTTPBearer(auto_error=False)),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ) -> Optional[User]:
     """
     Optional authentication - returns User if valid token provided, None otherwise.
@@ -96,7 +100,10 @@ async def get_optional_user(
         if not firebase_id:
             return None
         
-        user = db.query(User).filter(User.firebase_id == firebase_id).first()
+        result = await db.execute(
+            select(User).where(User.firebase_id == firebase_id)
+        )
+        user = result.scalar_one_or_none()
         return user
     except:
         return None

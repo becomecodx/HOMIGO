@@ -1,0 +1,535 @@
+2025-12-18 19:40:42,005 | INFO | 
+======================================================================
+2025-12-18 19:40:42,005 | INFO |   HOMIGO TENANT API TEST
+2025-12-18 19:40:42,005 | INFO |   Test Run ID: 20251218_194042
+2025-12-18 19:40:42,005 | INFO |   Firebase ID: tenant_eb45b8e4
+2025-12-18 19:40:42,005 | INFO |   Log File: tests/tenant_test_logs_20251218_194042.txt
+2025-12-18 19:40:42,005 | INFO | ======================================================================
+
+2025-12-18 19:40:42,005 | INFO | ============================================================
+2025-12-18 19:40:42,005 | INFO |   1. Signup User (type: tenant)
+2025-12-18 19:40:42,005 | INFO | ============================================================
+2025-12-18 19:40:42,005 | INFO | REQUEST: POST /auth/signup
+2025-12-18 19:40:42,005 | INFO | PAYLOAD: {
+  "firebase_id": "tenant_eb45b8e4",
+  "full_name": "Tenant Jay eb45b8e4",
+  "email": "tenant_eb45b8e4@test.com",
+  "phone": "+9198765eb45b",
+  "user_type": "tenant"
+}
+2025-12-18 19:40:55,306 | INFO | STATUS: 201
+2025-12-18 19:40:55,306 | INFO | RESPONSE: {
+  "success": true,
+  "message": "User registered successfully",
+  "user": {
+    "user_id": "3e329927-8562-4404-9c79-db9721d2a084",
+    "full_name": "Tenant Jay eb45b8e4",
+    "email": "tenant_eb45b8e4@test.com",
+    "phone": "+9198765eb45b",
+    "user_type": "tenant",
+    "profile_photo_url": null,
+    "account_status": "active",
+    "created_at": "2025-12-18T14:10:48.693206",
+    "last_login_at": "2025-12-18T14:10:48.693211"
+  }
+}
+2025-12-18 19:40:55,306 | INFO | ✅ SUCCESS
+2025-12-18 19:40:55,306 | INFO | Created user: 3e329927-8562-4404-9c79-db9721d2a084
+2025-12-18 19:40:55,306 | INFO | 
+2025-12-18 19:40:55,306 | INFO | ============================================================
+2025-12-18 19:40:55,306 | INFO |   2. Login
+2025-12-18 19:40:55,306 | INFO | ============================================================
+2025-12-18 19:40:55,306 | INFO | REQUEST: POST /auth/login
+2025-12-18 19:40:55,306 | INFO | PAYLOAD: {
+  "firebase_token": "xxx.eyJ1c2VyX2lkIjogInRlbmFudF9lYjQ1YjhlNCIsICJzdWIiOiAidGVuYW50X2ViNDViOGU0IiwgImVtYWlsIjogInRlbmFudF9lYjQ1YjhlNEB0ZXN0LmNvbSJ9.xxx"
+}
+2025-12-18 19:41:03,802 | INFO | STATUS: 200
+2025-12-18 19:41:03,803 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Login successful",
+  "user": {
+    "user_id": "3e329927-8562-4404-9c79-db9721d2a084",
+    "full_name": "Tenant Jay eb45b8e4",
+    "email": "tenant_eb45b8e4@test.com",
+    "phone": "+9198765eb45b",
+    "user_type": "tenant",
+    "profile_photo_url": null,
+    "account_status": "active",
+    "created_at": "2025-12-18T14:10:48.693206",
+    "last_login_at": "2025-12-18T14:10:58.657692"
+  },
+  "access_token": null
+}
+2025-12-18 19:41:03,803 | INFO | ✅ SUCCESS
+2025-12-18 19:41:03,803 | INFO | Logged in as: Tenant Jay eb45b8e4 (type: tenant)
+2025-12-18 19:41:03,803 | INFO | 
+2025-12-18 19:41:03,803 | INFO | ============================================================
+2025-12-18 19:41:03,803 | INFO |   3. Create Tenant Profile (tenant_jay)
+2025-12-18 19:41:03,803 | INFO | ============================================================
+2025-12-18 19:41:03,803 | INFO | REQUEST: PUT /tenant/profile
+2025-12-18 19:41:03,803 | INFO | PAYLOAD: {
+  "occupation_type": "working_professional",
+  "job_title": "Software Engineer",
+  "company_name": "Tech Corp",
+  "smoking": "no",
+  "drinking": "no",
+  "food_preference": "veg",
+  "bio": "Looking for a peaceful place - tenant_jay",
+  "hobbies": "Reading, Gaming, Music",
+  "languages_spoken": "English, Hindi"
+}
+2025-12-18 19:41:18,519 | INFO | STATUS: 200
+2025-12-18 19:41:18,520 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Tenant profile updated",
+  "data": {
+    "tenant_profile_id": "bb2684d9-bbaf-42bd-9c80-7582378abf9a",
+    "user_id": "3e329927-8562-4404-9c79-db9721d2a084",
+    "occupation_type": "working_professional",
+    "job_title": "Software Engineer",
+    "company_name": "Tech Corp",
+    "educational_institution": null,
+    "smoking": "no",
+    "drinking": "no",
+    "food_preference": "veg",
+    "lifestyle_notes": null,
+    "bio": "Looking for a peaceful place - tenant_jay",
+    "hobbies": "Reading, Gaming, Music",
+    "languages_spoken": "English, Hindi",
+    "profile_completeness": 100,
+    "created_at": "2025-12-18T14:11:08.322607",
+    "updated_at": "2025-12-18T14:11:08.322614"
+  }
+}
+2025-12-18 19:41:18,520 | INFO | ✅ SUCCESS
+2025-12-18 19:41:18,520 | INFO | Created tenant profile: bb2684d9-bbaf-42bd-9c80-7582378abf9a
+2025-12-18 19:41:18,520 | INFO | 
+2025-12-18 19:41:18,520 | INFO | ============================================================
+2025-12-18 19:41:18,520 | INFO |   4. Get Tenant Profile
+2025-12-18 19:41:18,520 | INFO | ============================================================
+2025-12-18 19:41:18,520 | INFO | REQUEST: GET /tenant/profile
+2025-12-18 19:41:22,753 | INFO | STATUS: 200
+2025-12-18 19:41:22,753 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Profile retrieved",
+  "data": {
+    "tenant_profile_id": "bb2684d9-bbaf-42bd-9c80-7582378abf9a",
+    "user_id": "3e329927-8562-4404-9c79-db9721d2a084",
+    "occupation_type": "working_professional",
+    "job_title": "Software Engineer",
+    "company_name": "Tech Corp",
+    "educational_institution": null,
+    "smoking": "no",
+    "drinking": "no",
+    "food_preference": "veg",
+    "lifestyle_notes": null,
+    "bio": "Looking for a peaceful place - tenant_jay",
+    "hobbies": "Reading, Gaming, Music",
+    "languages_spoken": "English, Hindi",
+    "profile_completeness": 100,
+    "created_at": "2025-12-18T14:11:08.322607",
+    "updated_at": "2025-12-18T14:11:08.322614"
+  }
+}
+2025-12-18 19:41:22,753 | INFO | ✅ SUCCESS
+2025-12-18 19:41:22,754 | INFO | Profile bio: Looking for a peaceful place - tenant_jay
+2025-12-18 19:41:22,754 | INFO | 
+2025-12-18 19:41:22,754 | INFO | ============================================================
+2025-12-18 19:41:22,754 | INFO |   5. Update Tenant Profile
+2025-12-18 19:41:22,754 | INFO | ============================================================
+2025-12-18 19:41:22,754 | INFO | REQUEST: PUT /tenant/profile
+2025-12-18 19:41:22,754 | INFO | PAYLOAD: {
+  "bio": "Updated bio - tenant_jay - professional looking for great place",
+  "hobbies": "Reading, Gaming, Music, Movies"
+}
+2025-12-18 19:41:33,765 | INFO | STATUS: 200
+2025-12-18 19:41:33,767 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Tenant profile updated",
+  "data": {
+    "tenant_profile_id": "bb2684d9-bbaf-42bd-9c80-7582378abf9a",
+    "user_id": "3e329927-8562-4404-9c79-db9721d2a084",
+    "occupation_type": "working_professional",
+    "job_title": "Software Engineer",
+    "company_name": "Tech Corp",
+    "educational_institution": null,
+    "smoking": "no",
+    "drinking": "no",
+    "food_preference": "veg",
+    "lifestyle_notes": null,
+    "bio": "Updated bio - tenant_jay - professional looking for great place",
+    "hobbies": "Reading, Gaming, Music, Movies",
+    "languages_spoken": "English, Hindi",
+    "profile_completeness": 100,
+    "created_at": "2025-12-18T14:11:08.322607",
+    "updated_at": "2025-12-18T14:11:27.083668"
+  }
+}
+2025-12-18 19:41:33,767 | INFO | ✅ SUCCESS
+2025-12-18 19:41:33,767 | INFO | Profile updated successfully
+2025-12-18 19:41:33,767 | INFO | 
+2025-12-18 19:41:33,767 | INFO | ============================================================
+2025-12-18 19:41:33,767 | INFO |   6. Set Tenant Priorities
+2025-12-18 19:41:33,767 | INFO | ============================================================
+2025-12-18 19:41:33,767 | INFO | REQUEST: PUT /tenant/priorities
+2025-12-18 19:41:33,767 | INFO | PAYLOAD: {
+  "budget_priority": 1,
+  "location_priority": 2,
+  "property_type_priority": 3,
+  "furnishing_priority": 4,
+  "occupancy_priority": 5,
+  "possession_priority": 6,
+  "gender_priority": 7,
+  "lifestyle_priority": 8
+}
+2025-12-18 19:41:43,161 | INFO | STATUS: 200
+2025-12-18 19:41:43,161 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Priorities updated successfully",
+  "data": {
+    "priority_id": "ef1b09e7-7e44-494a-9196-4967552398a1",
+    "user_id": "3e329927-8562-4404-9c79-db9721d2a084",
+    "budget_priority": 1,
+    "occupancy_priority": 5,
+    "location_priority": 2,
+    "possession_priority": 6,
+    "gender_priority": 7,
+    "property_type_priority": 3,
+    "lifestyle_priority": 8,
+    "furnishing_priority": 4,
+    "created_at": "2025-12-18T14:11:38.375214",
+    "updated_at": "2025-12-18T14:11:38.375221"
+  }
+}
+2025-12-18 19:41:43,161 | INFO | ✅ SUCCESS
+2025-12-18 19:41:43,162 | INFO | 
+2025-12-18 19:41:43,162 | INFO | ============================================================
+2025-12-18 19:41:43,162 | INFO |   7. Get Tenant Priorities
+2025-12-18 19:41:43,162 | INFO | ============================================================
+2025-12-18 19:41:43,162 | INFO | REQUEST: GET /tenant/priorities
+2025-12-18 19:41:47,763 | INFO | STATUS: 200
+2025-12-18 19:41:47,764 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Priorities retrieved",
+  "data": {
+    "priority_id": "ef1b09e7-7e44-494a-9196-4967552398a1",
+    "user_id": "3e329927-8562-4404-9c79-db9721d2a084",
+    "budget_priority": 1,
+    "occupancy_priority": 5,
+    "location_priority": 2,
+    "possession_priority": 6,
+    "gender_priority": 7,
+    "property_type_priority": 3,
+    "lifestyle_priority": 8,
+    "furnishing_priority": 4,
+    "created_at": "2025-12-18T14:11:38.375214",
+    "updated_at": "2025-12-18T14:11:38.375221"
+  }
+}
+2025-12-18 19:41:47,764 | INFO | ✅ SUCCESS
+2025-12-18 19:41:47,764 | INFO | Budget priority: 1
+2025-12-18 19:41:47,764 | INFO | 
+2025-12-18 19:41:47,764 | INFO | ============================================================
+2025-12-18 19:41:47,764 | INFO |   8. Create Tenant Requirement
+2025-12-18 19:41:47,764 | INFO | ============================================================
+2025-12-18 19:41:47,764 | INFO | REQUEST: POST /tenant/requirements
+2025-12-18 19:41:47,764 | INFO | PAYLOAD: {
+  "title": "Looking for 2BHK in Bandra - eb45b8e4",
+  "description": "Need a peaceful 2BHK flat near Bandra station for working professional",
+  "budget_min": 25000,
+  "budget_max": 40000,
+  "preferred_localities": [
+    "Bandra West",
+    "Khar",
+    "Santacruz"
+  ],
+  "occupancy": "single",
+  "property_type": "apartment",
+  "furnishing": "semi_furnished",
+  "possession_date": "2026-01-17",
+  "lease_duration_months": 11,
+  "gender_preference": "any",
+  "want_non_smoker": true,
+  "want_vegetarian": true
+}
+2025-12-18 19:41:57,687 | INFO | STATUS: 201
+2025-12-18 19:41:57,689 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Requirement created successfully",
+  "data": {
+    "requirement_id": "4205a931-b028-4be3-be60-68caa8360d65",
+    "user_id": "3e329927-8562-4404-9c79-db9721d2a084",
+    "title": "Looking for 2BHK in Bandra - eb45b8e4",
+    "description": "Need a peaceful 2BHK flat near Bandra station for working professional",
+    "budget_min": 25000.0,
+    "budget_max": 40000.0,
+    "preferred_localities": {
+      "localities": [
+        "Bandra West",
+        "Khar",
+        "Santacruz"
+      ]
+    },
+    "preferred_coordinates": null,
+    "occupancy": "single",
+    "property_type": "apartment",
+    "furnishing": "semi_furnished",
+    "possession_date": "2026-01-17",
+    "lease_duration_months": 11,
+    "gender_preference": "any",
+    "flatmate_occupation_preference": null,
+    "want_non_smoker": true,
+    "want_non_drinker": false,
+    "want_vegetarian": true,
+    "want_non_party": false,
+    "other_preferences": null,
+    "contact_visibility": "verified_hosts_only",
+    "status": "draft",
+    "expires_at": "2026-01-17",
+    "views_count": 0,
+    "likes_count": 0,
+    "is_premium": false,
+    "premium_expires_at": null,
+    "created_at": "2025-12-18T14:11:52.374620",
+    "updated_at": "2025-12-18T14:11:52.374624"
+  }
+}
+2025-12-18 19:41:57,689 | INFO | ✅ SUCCESS
+2025-12-18 19:41:57,689 | INFO | Created requirement: 4205a931-b028-4be3-be60-68caa8360d65
+2025-12-18 19:41:57,689 | INFO | 
+2025-12-18 19:41:57,690 | INFO | ============================================================
+2025-12-18 19:41:57,690 | INFO |   9. Get My Requirements
+2025-12-18 19:41:57,690 | INFO | ============================================================
+2025-12-18 19:41:57,690 | INFO | REQUEST: GET /tenant/requirements/my
+2025-12-18 19:42:13,483 | INFO | STATUS: 200
+2025-12-18 19:42:13,484 | INFO | RESPONSE: {
+  "success": true,
+  "data": {
+    "requirements": [
+      {
+        "requirement_id": "4205a931-b028-4be3-be60-68caa8360d65",
+        "user_id": "3e329927-8562-4404-9c79-db9721d2a084",
+        "title": "Looking for 2BHK in Bandra - eb45b8e4",
+        "description": "Need a peaceful 2BHK flat near Bandra station for working professional",
+        "budget_min": 25000.0,
+        "budget_max": 40000.0,
+        "preferred_localities": {
+          "localities": [
+            "Bandra West",
+            "Khar",
+            "Santacruz"
+          ]
+        },
+        "preferred_coordinates": null,
+        "occupancy": "single",
+        "property_type": "apartment",
+        "furnishing": "semi_furnished",
+        "possession_date": "2026-01-17",
+        "lease_duration_months": 11,
+        "gender_preference": "any",
+        "flatmate_occupation_preference": null,
+        "want_non_smoker": true,
+        "want_non_drinker": false,
+        "want_vegetarian": true,
+        "want_non_party": false,
+        "other_preferences": null,
+        "contact_visibility": "verified_hosts_only",
+        "status": "draft",
+        "expires_at": "2026-01-17",
+        "views_count": 0,
+        "likes_count": 0,
+        "is_premium": false,
+        "premium_expires_at": null,
+        "created_at": "2025-12-18T14:11:52.374620",
+        "updated_at": "2025-12-18T14:11:52.374624"
+      }
+    ],
+    "pagination": {
+      "current_page": 1,
+      "total_pages": 1,
+      "total_items": 1,
+      "items_per_p
+2025-12-18 19:42:13,484 | INFO | ✅ SUCCESS
+2025-12-18 19:42:13,484 | INFO | Found 1 requirements
+2025-12-18 19:42:13,484 | INFO | 
+2025-12-18 19:42:13,484 | INFO | ============================================================
+2025-12-18 19:42:13,484 | INFO |   10. Get Requirement by ID
+2025-12-18 19:42:13,484 | INFO | ============================================================
+2025-12-18 19:42:13,485 | INFO | REQUEST: GET /tenant/requirements/4205a931-b028-4be3-be60-68caa8360d65
+2025-12-18 19:42:16,868 | INFO | STATUS: 200
+2025-12-18 19:42:16,869 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Requirement retrieved",
+  "data": {
+    "requirement_id": "4205a931-b028-4be3-be60-68caa8360d65",
+    "user_id": "3e329927-8562-4404-9c79-db9721d2a084",
+    "title": "Looking for 2BHK in Bandra - eb45b8e4",
+    "description": "Need a peaceful 2BHK flat near Bandra station for working professional",
+    "budget_min": 25000.0,
+    "budget_max": 40000.0,
+    "preferred_localities": {
+      "localities": [
+        "Bandra West",
+        "Khar",
+        "Santacruz"
+      ]
+    },
+    "preferred_coordinates": null,
+    "occupancy": "single",
+    "property_type": "apartment",
+    "furnishing": "semi_furnished",
+    "possession_date": "2026-01-17",
+    "lease_duration_months": 11,
+    "gender_preference": "any",
+    "flatmate_occupation_preference": null,
+    "want_non_smoker": true,
+    "want_non_drinker": false,
+    "want_vegetarian": true,
+    "want_non_party": false,
+    "other_preferences": null,
+    "contact_visibility": "verified_hosts_only",
+    "status": "draft",
+    "expires_at": "2026-01-17",
+    "views_count": 0,
+    "likes_count": 0,
+    "is_premium": false,
+    "premium_expires_at": null,
+    "created_at": "2025-12-18T14:11:52.374620",
+    "updated_at": "2025-12-18T14:11:52.374624"
+  }
+}
+2025-12-18 19:42:16,869 | INFO | ✅ SUCCESS
+2025-12-18 19:42:16,869 | INFO | Requirement title: Looking for 2BHK in Bandra - eb45b8e4
+2025-12-18 19:42:16,869 | INFO | 
+2025-12-18 19:42:16,869 | INFO | ============================================================
+2025-12-18 19:42:16,869 | INFO |   11. Update Requirement
+2025-12-18 19:42:16,869 | INFO | ============================================================
+2025-12-18 19:42:16,869 | INFO | REQUEST: PUT /tenant/requirements/4205a931-b028-4be3-be60-68caa8360d65
+2025-12-18 19:42:16,869 | INFO | PAYLOAD: {
+  "description": "Updated - Need a peaceful 2BHK flat with good connectivity",
+  "budget_max": 45000
+}
+2025-12-18 19:42:25,765 | INFO | STATUS: 200
+2025-12-18 19:42:25,766 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Requirement updated successfully",
+  "data": {
+    "requirement_id": "4205a931-b028-4be3-be60-68caa8360d65",
+    "user_id": "3e329927-8562-4404-9c79-db9721d2a084",
+    "title": "Looking for 2BHK in Bandra - eb45b8e4",
+    "description": "Updated - Need a peaceful 2BHK flat with good connectivity",
+    "budget_min": 25000.0,
+    "budget_max": 45000.0,
+    "preferred_localities": {
+      "localities": [
+        "Bandra West",
+        "Khar",
+        "Santacruz"
+      ]
+    },
+    "preferred_coordinates": null,
+    "occupancy": "single",
+    "property_type": "apartment",
+    "furnishing": "semi_furnished",
+    "possession_date": "2026-01-17",
+    "lease_duration_months": 11,
+    "gender_preference": "any",
+    "flatmate_occupation_preference": null,
+    "want_non_smoker": true,
+    "want_non_drinker": false,
+    "want_vegetarian": true,
+    "want_non_party": false,
+    "other_preferences": null,
+    "contact_visibility": "verified_hosts_only",
+    "status": "draft",
+    "expires_at": "2026-01-17",
+    "views_count": 0,
+    "likes_count": 0,
+    "is_premium": false,
+    "premium_expires_at": null,
+    "created_at": "2025-12-18T14:11:52.374620",
+    "updated_at": "2025-12-18T14:12:19.723943"
+  }
+}
+2025-12-18 19:42:25,766 | INFO | ✅ SUCCESS
+2025-12-18 19:42:25,767 | INFO | 
+2025-12-18 19:42:25,767 | INFO | ============================================================
+2025-12-18 19:42:25,767 | INFO |   12. Activate Requirement
+2025-12-18 19:42:25,767 | INFO | ============================================================
+2025-12-18 19:42:25,767 | INFO | REQUEST: POST /tenant/requirements/4205a931-b028-4be3-be60-68caa8360d65/activate
+2025-12-18 19:42:35,014 | INFO | STATUS: 200
+2025-12-18 19:42:35,015 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Requirement activated successfully",
+  "data": {
+    "requirement_id": "4205a931-b028-4be3-be60-68caa8360d65",
+    "user_id": "3e329927-8562-4404-9c79-db9721d2a084",
+    "title": "Looking for 2BHK in Bandra - eb45b8e4",
+    "description": "Updated - Need a peaceful 2BHK flat with good connectivity",
+    "budget_min": 25000.0,
+    "budget_max": 45000.0,
+    "preferred_localities": {
+      "localities": [
+        "Bandra West",
+        "Khar",
+        "Santacruz"
+      ]
+    },
+    "preferred_coordinates": null,
+    "occupancy": "single",
+    "property_type": "apartment",
+    "furnishing": "semi_furnished",
+    "possession_date": "2026-01-17",
+    "lease_duration_months": 11,
+    "gender_preference": "any",
+    "flatmate_occupation_preference": null,
+    "want_non_smoker": true,
+    "want_non_drinker": false,
+    "want_vegetarian": true,
+    "want_non_party": false,
+    "other_preferences": null,
+    "contact_visibility": "verified_hosts_only",
+    "status": "active",
+    "expires_at": "2026-01-17",
+    "views_count": 0,
+    "likes_count": 0,
+    "is_premium": false,
+    "premium_expires_at": null,
+    "created_at": "2025-12-18T14:11:52.374620",
+    "updated_at": "2025-12-18T14:12:28.847249"
+  }
+}
+2025-12-18 19:42:35,015 | INFO | ✅ SUCCESS
+2025-12-18 19:42:35,015 | INFO | Requirement status: active
+2025-12-18 19:42:35,016 | INFO | 
+2025-12-18 19:42:35,016 | INFO | ============================================================
+2025-12-18 19:42:35,016 | INFO |   13. Delete Requirement
+2025-12-18 19:42:35,016 | INFO | ============================================================
+2025-12-18 19:42:35,016 | INFO | REQUEST: DELETE /tenant/requirements/4205a931-b028-4be3-be60-68caa8360d65
+2025-12-18 19:42:42,523 | INFO | STATUS: 200
+2025-12-18 19:42:42,524 | INFO | RESPONSE: {
+  "success": true,
+  "message": "Requirement deleted successfully"
+}
+2025-12-18 19:42:42,524 | INFO | ✅ SUCCESS
+2025-12-18 19:42:42,524 | INFO | 
+2025-12-18 19:42:42,525 | INFO | ============================================================
+2025-12-18 19:42:42,525 | INFO |   TEST SUMMARY
+2025-12-18 19:42:42,525 | INFO | ============================================================
+2025-12-18 19:42:42,525 | INFO | ✅ PASSED - 1. Signup User (type: tenant)
+2025-12-18 19:42:42,525 | INFO | ✅ PASSED - 2. Login
+2025-12-18 19:42:42,525 | INFO | ✅ PASSED - 3. Create Tenant Profile (tenant_jay)
+2025-12-18 19:42:42,525 | INFO | ✅ PASSED - 4. Get Tenant Profile
+2025-12-18 19:42:42,525 | INFO | ✅ PASSED - 5. Update Tenant Profile
+2025-12-18 19:42:42,525 | INFO | ✅ PASSED - 6. Set Tenant Priorities
+2025-12-18 19:42:42,525 | INFO | ✅ PASSED - 7. Get Tenant Priorities
+2025-12-18 19:42:42,525 | INFO | ✅ PASSED - 8. Create Tenant Requirement
+2025-12-18 19:42:42,525 | INFO | ✅ PASSED - 9. Get My Requirements
+2025-12-18 19:42:42,525 | INFO | ✅ PASSED - 10. Get Requirement by ID
+2025-12-18 19:42:42,525 | INFO | ✅ PASSED - 11. Update Requirement
+2025-12-18 19:42:42,525 | INFO | ✅ PASSED - 12. Activate Requirement
+2025-12-18 19:42:42,525 | INFO | ✅ PASSED - 13. Delete Requirement
+2025-12-18 19:42:42,525 | INFO | 
+Total: 13 | Passed: 13 | Failed: 0
+2025-12-18 19:42:42,525 | INFO | 
+📄 Full logs saved to: tests/tenant_test_logs_20251218_194042.txt

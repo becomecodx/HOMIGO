@@ -38,9 +38,6 @@ class HostProfile(Base):
     updated_at: Mapped[Optional[datetime]] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     user: Mapped["User"] = relationship("User", back_populates="host_profile")
-    
-    # Listings
-    listings: Mapped[List["PropertyListing"]] = relationship("PropertyListing", back_populates="host", cascade="all, delete-orphan")
 
     __table_args__ = (
         CheckConstraint("host_category IN ('owner', 'broker', 'company', 'future_room_partner', 'flatmate', 'known_of_flatmate', 'known_of_owner')", name="ck_host_category"),
